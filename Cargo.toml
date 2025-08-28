@@ -140,6 +140,8 @@ profile-with-tracy-ondemand = ["profile-with-tracy", "tracy-client/ondemand", "t
 profile-with-tracy-allocations = ["profile-with-tracy"]
 # Enables dinit integration (global environment).
 dinit = []
+# Enable 'app/global menu' support
+appmenu = ["dbus"]
 
 [lints.clippy]
 new_without_default = "allow"

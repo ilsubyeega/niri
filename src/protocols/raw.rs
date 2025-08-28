@@ -15,10 +15,12 @@ pub mod mutter_x11_interop {
                     use smithay::reexports::wayland_server;
                     use wayland_server::protocol::__interfaces::*;
                     wayland_scanner::generate_interfaces!("resources/mutter-x11-interop.xml");
+                    wayland_scanner::generate_interfaces!("resources/kde-appmenu.xml");
                 }
                 use self::__interfaces::*;
 
                 wayland_scanner::generate_server_code!("resources/mutter-x11-interop.xml");
+                wayland_scanner::generate_server_code!("resources/kde-appmenu.xml");
             }
         }
     }

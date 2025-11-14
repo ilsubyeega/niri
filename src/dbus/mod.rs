@@ -38,6 +38,8 @@ pub struct DBusServers {
     pub conn_introspect: Option<Connection>,
     #[cfg(feature = "xdp-gnome-screencast")]
     pub conn_screen_cast: Option<Connection>,
+    //#[cfg(feature = "appmenu")]
+    //pub conn_dbusmenu: Option<Connection>,
     pub conn_locale1: Option<Connection>,
     pub conn_keyboard_monitor: Option<Connection>,
 }
@@ -131,6 +133,12 @@ impl DBusServers {
                 let screen_cast = ScreenCast::new(backend.ipc_outputs(), to_niri);
                 dbus.conn_screen_cast = try_start(screen_cast);
             }
+
+            //#[cfg(feature = "appmenu")]
+            //{
+            //    let dbusmenu = canonical_dbusmenu::DBusMenu;
+            //    dbus.conn_dbusmenu = try_start(dbusmenu);
+            //}
 
             let keyboard_monitor = KeyboardMonitor::new();
             if let Some(x) = try_start(keyboard_monitor.clone()) {

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- https://invent.kde.org/libraries/plasma-wayland-protocols/-/blob/master/src/protocols/appmenu.xml -->
 <protocol name="appmenu">
   <copyright><![CDATA[
     SPDX-FileCopyrightText: 2017 David Edmundson

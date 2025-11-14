@@ -144,6 +144,8 @@ use crate::niri_render_elements;
 use crate::protocols::ext_workspace::{self, ExtWorkspaceManagerState};
 use crate::protocols::foreign_toplevel::{self, ForeignToplevelManagerState};
 use crate::protocols::gamma_control::GammaControlManagerState;
+#[cfg(feature = "appmenu")]
+use crate::protocols::kde_appmenu::KDEAppMenuManagerState;
 use crate::protocols::mutter_x11_interop::MutterX11InteropManagerState;
 use crate::protocols::output_management::OutputManagementManagerState;
 use crate::protocols::screencopy::{Screencopy, ScreencopyBuffer, ScreencopyManagerState};
@@ -415,6 +417,9 @@ pub struct Niri {
     /// Window ID for the "dynamic cast" special window for the xdp-gnome picker.
     #[cfg(feature = "xdp-gnome-screencast")]
     pub dynamic_cast_id_for_portal: MappedId,
+
+    #[cfg(feature = "appmenu")]
+    pub kde_appmenu_manager_state: KDEAppMenuManagerState,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -2436,6 +2441,10 @@ impl Niri {
         #[cfg(test)]
         let single_pixel_buffer_state = SinglePixelBufferState::new::<State>(&display_handle);
 
+        #[cfg(feature = "appmenu")]
+        let kde_appmenu_manager_state =
+            KDEAppMenuManagerState::new::<State, _>(&display_handle, client_is_unrestricted);
+
         let mut seat: Seat<State> = seat_state.new_wl_seat(&display_handle, backend.seat_name());
         let keyboard = match seat.add_keyboard(
             config_.input.keyboard.xkb.to_xkb_config(),
@@ -2705,6 +2714,9 @@ impl Niri {
 
             #[cfg(feature = "xdp-gnome-screencast")]
             dynamic_cast_id_for_portal: MappedId::next(),
+
+            #[cfg(feature = "appmenu")]
+            kde_appmenu_manager_state,
         };
 
         niri.reset_pointer_inactivity_timer();

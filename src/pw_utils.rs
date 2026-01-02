@@ -1088,6 +1088,8 @@ fn make_video_params(
     refresh: u32,
     alpha: bool,
 ) -> pod::Object {
+    const DRM_FORMAT_MOD_LINEAR: i64 = 0;
+
     let format = if alpha {
         VideoFormat::BGRA
     } else {
@@ -1100,10 +1102,14 @@ fn make_video_params(
         Fourcc::Xrgb8888
     };
 
-    let formats: Vec<_> = formats
+    let mut formats: Vec<_> = formats
         .iter()
         .filter_map(|f| (f.code == fourcc).then_some(u64::from(f.modifier) as i64))
         .collect();
+
+    if !formats.contains(&DRM_FORMAT_MOD_LINEAR) {
+        formats.insert(0, DRM_FORMAT_MOD_LINEAR);
+    }
 
     trace!("offering: {formats:?}");
 
